@@ -19,7 +19,7 @@ export class ModalImagenService {
     return this._ocultarModal;
   }
 
-  abrirModal( 
+  abrirModal(
       tipo: 'usuarios'|'medicos'|'hospitales',
       id: string,
       img: string = 'no-img'
@@ -27,7 +27,7 @@ export class ModalImagenService {
     this._ocultarModal = false;
     this.tipo = tipo;
     this.id = id;
-    // localhost:3000/api/upload/medicos/no-img
+
       if ( img.includes('https') ) {
         this.img = img;
       } else {

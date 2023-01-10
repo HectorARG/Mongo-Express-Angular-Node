@@ -25,7 +25,7 @@ export class UsuarioService {
   public auth2: any;
   public usuario: Usuario;
 
-  constructor( private http: HttpClient, 
+  constructor( private http: HttpClient,
                 private router: Router,
                 private ngZone: NgZone ) {
 
@@ -50,7 +50,7 @@ export class UsuarioService {
 
   googleInit() {
 
-    return new Promise( resolve => {
+    return new Promise<void>( resolve => {
       gapi.load('auth2', () => {
         this.auth2 = gapi.auth2.init({
           client_id: '1045072534136-oqkjcjvo449uls0bttgvl3aejelh22f5.apps.googleusercontent.com',
@@ -67,7 +67,6 @@ export class UsuarioService {
     localStorage.removeItem('token');
 
     this.auth2.signOut().then(() => {
-
       this.ngZone.run(() => {
         this.router.navigateByUrl('/login');
       })
@@ -76,7 +75,7 @@ export class UsuarioService {
   }
 
   validarToken(): Observable<boolean> {
-    
+
     return this.http.get(`${ base_url }/login/renew`, {
       headers: {
         'x-token': this.token
@@ -95,7 +94,7 @@ export class UsuarioService {
 
 
   crearUsuario( formData: RegisterForm ) {
-    
+
     return this.http.post(`${ base_url }/usuarios`, formData )
               .pipe(
                 tap( (resp: any) => {
@@ -117,7 +116,7 @@ export class UsuarioService {
   }
 
   login( formData: LoginForm ) {
-    
+
     return this.http.post(`${ base_url }/login`, formData )
                 .pipe(
                   tap( (resp: any) => {
@@ -128,7 +127,7 @@ export class UsuarioService {
   }
 
   loginGoogle( token ) {
-    
+
     return this.http.post(`${ base_url }/login/google`, { token } )
                 .pipe(
                   tap( (resp: any) => {
@@ -138,15 +137,15 @@ export class UsuarioService {
 
   }
 
-  
+
   cargarUsuarios( desde: number = 0 ) {
 
     const url = `${ base_url }/usuarios?desde=${ desde }`;
     return this.http.get<CargarUsuario>( url, this.headers )
             .pipe(
               map( resp => {
-                const usuarios = resp.usuarios.map( 
-                  user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid )  
+                const usuarios = resp.usuarios.map(
+                  user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid )
                 );
                 return {
                   total: resp.total,
@@ -158,7 +157,7 @@ export class UsuarioService {
 
 
   eliminarUsuario( usuario: Usuario ) {
-    
+
       // /usuarios/5eff3c5054f5efec174e9c84
       const url = `${ base_url }/usuarios/${ usuario.uid }`;
       return this.http.delete( url, this.headers );

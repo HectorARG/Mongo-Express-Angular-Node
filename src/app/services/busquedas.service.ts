@@ -30,11 +30,11 @@ export class BusquedasService {
   private transformarUsuarios( resultados: any[] ): Usuario[] {
 
     return resultados.map(
-      user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid )  
+      user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid )
     );
   }
 
-  buscar( 
+  buscar(
       tipo: 'usuarios'|'medicos'|'hospitales',
       termino: string
     ) {
@@ -42,12 +42,12 @@ export class BusquedasService {
     const url = `${ base_url }/todo/coleccion/${ tipo }/${ termino }`;
     return this.http.get<any[]>( url, this.headers )
             .pipe(
-              map( (resp: any ) => { 
+              map( (resp: any ) => {
 
                 switch ( tipo ) {
                   case 'usuarios':
                     return this.transformarUsuarios( resp.resultados )
-                
+
                   default:
                     return [];
                 }

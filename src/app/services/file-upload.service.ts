@@ -20,7 +20,7 @@ export class FileUploadService {
 
       const url = `${ base_url }/upload/${ tipo }/${ id }`;
       const formData = new FormData();
-      formData.append('imagen', archivo);
+      formData.append('image', archivo);
 
       const resp = await fetch( url, {
         method: 'PUT',
@@ -38,10 +38,10 @@ export class FileUploadService {
         console.log(data.msg);
         return false;
       }
-      
+
     } catch (error) {
       console.log(error);
-      return false;    
+      return false;
     }
 
   }

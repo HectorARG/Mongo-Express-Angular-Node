@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                
+
                 <input type="text"
                         class="form-control"
                         placeholder="Buscar usuario..."
@@ -12,12 +12,12 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
 
 <div class="row animated fadeIn fast"
      *ngIf="cargando">
     <div class="col-12">
-        
+
         <div class="alert alert-info text-center">
           <h4 class="alert-heading">Cargando</h4>
           <i class="fa fa-spin fa-refresh fa-2x"></i>
@@ -25,10 +25,10 @@
         </div>
 
     </div>
-</div> 
+</div>
 
 
-<div class="row animated fadeIn fast" 
+<div class="row animated fadeIn fast"
     *ngIf="!cargando">
     <div class="col-12">
         <div class="card">
@@ -50,7 +50,7 @@
                         <tbody>
                             <tr *ngFor="let usuario of usuarios">
                                 <td class="text-center">
-                                    <img [src]="usuario.imagenUrl" 
+                                    <img [src]="usuario.imagenUrl"
                                             alt="Avatar de usuario"
                                             class="avatar cursor"
                                             (click)="abrirModal(usuario)">
@@ -68,20 +68,20 @@
                                 </td>
 
                                 <td>
-                                    <span *ngIf="usuario.google" class="label label-danger">Google</span>    
-                                    <span *ngIf="!usuario.google" class="label label-info">Email</span>    
+                                    <span *ngIf="usuario.google" class="label label-danger">Google</span>
+                                    <span *ngIf="!usuario.google" class="label label-info">Email</span>
                                 </td>
 
-                                <td class="text-nowrap text-center">                                  
-                                    <a data-toggle="tooltip" 
+                                <td class="text-nowrap text-center">
+                                    <a data-toggle="tooltip"
                                         data-original-title="Borrar"
                                         class="cursor"
                                         (click)="eliminarUsuario(usuario)">
-                                        <i class="fa fa-close text-danger"></i> 
+                                        <i class="fa fa-close text-danger"></i>
                                     </a>
                                 </td>
                             </tr>
-                            
+
                         </tbody>
                     </table>
                 </div>
