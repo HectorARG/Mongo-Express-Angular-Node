@@ -36,6 +36,11 @@
     width: 30px;
 }
 
+.hospitalPicture{
+  width: 40px;
+  border-radius: 7%;
+}
+
 .oculto {
     display: none;
 }
