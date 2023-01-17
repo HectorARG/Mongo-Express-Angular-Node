@@ -29,15 +29,21 @@
   <div class="col-12">
       <div class="card">
           <div class="card-body">
+            <div class="text-right">
+              <button class="btn btn-info" (click)="abrirSwertAlert()">
+                <i class="fa fa-hospital-o"></i>
+                Crear Hospital
+              </button>
+            </div>
               <h4 class="card-title">Hospitales</h4>
-              <h6 class="card-subtitle">Hospitales registrados en mi aplicación: {{ hospitales.length }}</h6>
+              <h6 class="card-subtitle">Hospitales registrados en mi aplicación: ({{ hospitales.length }})</h6>
               <div class="table-responsive">
                   <table class="table table-bordered">
                       <thead>
                           <tr>
                               <th class="w100">Foto</th>
                               <th>Correo</th>
-                              <th class="text-nowrap">Acciones</th>
+                              <th class="w100">Acciones</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -49,8 +55,14 @@
                                 <input type="text" class="form-control" [(ngModel)]="hospital.nombre" placeholder="Nombre del Hospital">
                               </td>
                               <td class="text-nowrap text-center">
-                                  <a href="#" data-toggle="tooltip" data-original-title="Guardar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                  <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="fa fa-close text-danger"></i> </a>
+                                  <a  class="cursor"
+                                      (click)="guardarCambio(hospital)"
+                                      data-toggle="tooltip"
+                                      data-original-title="Modificar">
+                                    <i class="fa fa-pencil text-inverse m-r-10">
+                                    </i>
+                                  </a>
+                                  <a class="cursor" (click)="eliminarHospital(hospital)" data-toggle="tooltip" data-original-title="Borrar"> <i class="fa fa-close text-danger"></i> </a>
                               </td>
                           </tr>
 
