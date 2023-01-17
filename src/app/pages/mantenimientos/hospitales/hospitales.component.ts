@@ -1,7 +1,14 @@
-import { HospitalService } from './../../../services/hospital.service';
 import { Component, OnInit } from '@angular/core';
-import { Hospital } from '../../../models/hospital.model';
+
 import Swal from 'sweetalert2';
+
+import { delay } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+
+import { HospitalService } from './../../../services/hospital.service';
+import { Hospital } from '../../../models/hospital.model';
+import { ModalImagenService } from '../../../services/modal-imagen.service';
+import { BusquedasService } from '../../../services/busquedas.service';
 
 @Component({
   selector: 'app-hospitales',
@@ -12,18 +19,28 @@ import Swal from 'sweetalert2';
 export class HospitalesComponent implements OnInit {
 
   public hospitales : Hospital[] = [];
+  public hospitalesTemp: Hospital[] = [];
   public cargando: boolean = true;
 
-  constructor( private hospitalService: HospitalService ) { }
+  public imgSubs: Subscription;
+
+  constructor( private hospitalService: HospitalService,
+               private modalImagenService: ModalImagenService,
+               private busquedasService: BusquedasService, ) { }
 
   ngOnInit(): void {
     this.cargarHospital();
+
+    this.imgSubs = this.modalImagenService.nuevaImagen
+      .pipe(delay(100))
+      .subscribe( img => this.cargarHospital() );
   }
 
   cargarHospital(){
     this.cargando = true;
     this.hospitalService.obtenerHospitales().subscribe(hospitales => {
       this.hospitales = hospitales;
+      this.hospitalesTemp = hospitales;
       this.cargando = false;
     })
   }
@@ -79,7 +96,7 @@ export class HospitalesComponent implements OnInit {
   }
 
   async abrirSwertAlert(){
-    const {value} = await Swal.fire<string>({
+    const { value = '' } = await Swal.fire<string>({
       title: 'Agregar hoapital',
       text:'Ingrese el nombre del nuevo hospital',
       input: 'text',
@@ -94,5 +111,24 @@ export class HospitalesComponent implements OnInit {
       });
     }
 
+  }
+
+  abrirModal( hospital: Hospital ) {
+
+    this.modalImagenService.abrirModal('hospitales', hospital._id, hospital.img );
+  }
+
+  busquedaHospital( termino: string ){
+
+    if ( termino.length === 0 ) {
+      return this.hospitales = this.hospitalesTemp;
+    }
+
+    this.busquedasService.buscar( 'hospitales', termino )
+        .subscribe( resp => {
+
+          this.hospitales = resp;
+
+        });
   }
 }
