@@ -33,7 +33,7 @@ export class MedicoService {
     return this.http.get( url, this.headers ).pipe(map( (resp: { ok: boolean, medicos: Medico[] }) => resp.medicos));
   }
 
-  crearMedico( medico: Medico){
+  crearMedico( medico: { nombre: string, hospital: string }){
     const url = `${ base_url }/medicos`
     return this.http.post<Medico>( url, medico  , this.headers );
   }
@@ -43,8 +43,13 @@ export class MedicoService {
     return this.http.put<Medico>( url, medico  , this.headers );
   }
 
-  eliminarMedico( id: string){
+  eliminarMedico( id: string ){
     const url = `${ base_url }/medicos/${ id }`
     return this.http.delete<Medico>( url , this.headers );
+  }
+
+  obtenerMedicosById(id: string){
+    const url = `${ base_url }/medicos/${ id }`;
+    return this.http.get( url , this.headers ).pipe(map( (resp: { ok: boolean, medico: Medico }) => resp.medico));
   }
 }

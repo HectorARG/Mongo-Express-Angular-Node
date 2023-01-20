@@ -4,13 +4,13 @@
         <div class="card-body">
             <h4 class="card-title">Medico</h4>
             <h6 class="card-subtitle">Creacion o edicion del medico</h6>
-            <form class="form-horizontal p-t-20">
+            <form class="form-horizontal p-t-20" [formGroup]="medicoForm" (submit)="guardarMedico()">
 
-              <div class="form-group row">
+              <div *ngIf="medicoSeleccionado" class="form-group row">
                 <label for="uname" class="col-sm-3 control-label">Foto medico</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <img src="https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?b=1&s=170667a&w=0&k=20&c=LEhQ7Gji4-gllQqp80hLpQsLHlHLw61DoiVf7XJsSx0=" class="w250">
+                      <img [src]="medicoSeleccionado.img | imagen: 'medicos'" (click)="abrirModal(medicoSeleccionado)"  class="cursor w250"/>
                     </div>
                 </div>
               </div>
@@ -19,7 +19,7 @@
                     <label for="uname" class="col-sm-3 control-label">Nombre del medico</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="uname" placeholder="Nombre">
+                            <input type="text" class="form-control" id="uname" placeholder="Nombre" formControlName="nombre">
                             <div class="input-group-addon"><i class="ti-user"></i></div>
                         </div>
                     </div>
@@ -29,10 +29,9 @@
                     <label for="web1" class="col-sm-3 control-label">Hospital</label>
                     <div class="col-sm-9">
                         <div class="input-group">
-                            <select class="form-control">
-                              <option>Opcion n</option>
-                              <option>Opcion n</option>
-                              <option>Opcion n</option>
+                            <select class="form-control" formControlName="hospital">
+                              <option value="">Seleccione Hospital</option>
+                              <option *ngFor="let hospital of hospitales" [value]="hospital._id">{{ hospital.nombre }}</option>
                             </select>
                         </div>
                     </div>
@@ -41,6 +40,7 @@
                 <div class="form-group row m-b-0">
                     <div class="offset-sm-3 col-sm-9 ">
                         <button type="submit"
+                                [disabled]="medicoForm.invalid"
                                 class="btn btn-success waves-effect waves-light">
                                 Guardar
                         </button>
@@ -58,7 +58,12 @@
           <h4 class="card-title">Hospital</h4>
           <h6 class="card-subtitle">Imagen del hospital seleccionado</h6>
           <div class="text-center">
-              <img src="https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?b=1&s=170667a&w=0&k=20&c=LEhQ7Gji4-gllQqp80hLpQsLHlHLw61DoiVf7XJsSx0=" class="img-avatar">
+              <img *ngIf="existeHospitalSeleccionado" [src]="hospitalSeleccionado.img | imagen: 'hospitales'"  class="w450"/>
+              <img *ngIf="!existeHospitalSeleccionado" src="https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?b=1&s=170667a&w=0&k=20&c=LEhQ7Gji4-gllQqp80hLpQsLHlHLw61DoiVf7XJsSx0=" class="w450">
+          </div>
+          <div class="text-center" *ngIf="existeHospitalSeleccionado">
+            <h4>Informacion del hospital</h4>
+            <h5>{{ hospitalSeleccionado.nombre }}</h5>
           </div>
       </div>
     </div>
