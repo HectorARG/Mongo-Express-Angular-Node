@@ -1,8 +1,7 @@
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CargarHospital } from '../interfaces/cargar-hospitales.interface';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Hospital } from '../models/hospital.model';
 
 const base_url = environment.base_url;

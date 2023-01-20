@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { Usuario } from '../models/usuario.model';
 import { Hospital } from '../models/hospital.model';
+import { Medico } from '../models/medico.model';
 
 const base_url = environment.base_url;
 
@@ -40,6 +41,12 @@ export class BusquedasService {
     );
   }
 
+  private transformarMedicos( resultados: any[] ): Medico[] {
+    return resultados.map(
+      medico => new Medico(medico.nombre, medico._id, medico.img, medico.usuario, medico.hospital )
+    );
+  }
+
   buscar(
       tipo: 'usuarios'|'medicos'|'hospitales',
       termino: string
@@ -54,7 +61,9 @@ export class BusquedasService {
                   return this.transformarUsuarios( resp.resultados );
                 } else if(tipo === 'hospitales'){
                   return this.transformarHospitales( resp.resultados );
-                }else{
+                } else if(tipo === 'medicos'){
+                  return this.transformarMedicos( resp.resultados );
+                } else{
                   return [];
                 }
 

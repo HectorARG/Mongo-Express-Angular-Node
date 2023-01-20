@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import Swal from 'sweetalert2';
 
@@ -16,7 +16,7 @@ import { BusquedasService } from '../../../services/busquedas.service';
   styles: [
   ]
 })
-export class HospitalesComponent implements OnInit {
+export class HospitalesComponent implements OnInit, OnDestroy {
 
   public hospitales : Hospital[] = [];
   public hospitalesTemp: Hospital[] = [];
@@ -27,6 +27,10 @@ export class HospitalesComponent implements OnInit {
   constructor( private hospitalService: HospitalService,
                private modalImagenService: ModalImagenService,
                private busquedasService: BusquedasService, ) { }
+
+  ngOnDestroy(): void {
+    this.imgSubs.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.cargarHospital();

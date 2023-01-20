@@ -5,14 +5,16 @@
 
               <input type="text"
                       class="form-control"
-                      placeholder="Buscar usuario..."/>
+                      placeholder="Buscar medico..."
+                      #txtMedico
+                      (keyup)="busquedaMedico( txtMedico.value )"/>
 
           </div>
       </div>
   </div>
 </div>
 
-<div class="row animated fadeIn fast">
+<div class="row animated fadeIn fast" *ngIf="cargando">
   <div class="col-12">
 
       <div class="alert alert-info text-center">
@@ -25,35 +27,46 @@
 </div>
 
 
-<div class="row">
+<div class="row" *ngIf="!cargando">
   <div class="col-12">
       <div class="card">
           <div class="card-body">
-              <h4 class="card-title">Usuarios</h4>
-              <h6 class="card-subtitle">Usuarios registrados en mi aplicación</h6>
+
+            <div class="row">
+              <div class="col-8">
+                <h4 class="card-title">Medicos</h4>
+                <h6 class="card-subtitle">Medicos registrados en mi aplicación{{medicos.length}}</h6>
+              </div>
+              <div class="col">
+                <div class="text-right">
+                  <a class="btn btn-info"
+                      routerLink="/dashboard/medico/nuevo">
+                    <i class="fa fa-hospital-o"></i>
+                    Crear Medico
+                  </a>
+                </div>
+              </div>
+            </div>
+
               <div class="table-responsive">
                   <table class="table table-bordered">
                       <thead>
                           <tr>
-                              <th>Avatar</th>
-                              <th>Correo</th>
+                              <th class="w100">Imagen</th>
                               <th>Nombre</th>
-                              <th>Role</th>
-                              <th>Auth</th>
-                              <th class="text-nowrap">Acciones</th>
+                              <th class="w100 text-nowrap">Acciones</th>
                           </tr>
                       </thead>
                       <tbody>
-                          <tr>
-                              <td>Lunar probe project</td>
-                              <td>Lunar probe project</td>
-                              <td>Lunar probe project</td>
-                              <td>Lunar probe project</td>
-                              <td>Lunar probe project</td>
+                          <tr *ngFor="let medico of medicos" >
+                              <td>
+                                <img [src]="medico.img | imagen: 'medicos'" (click)="abrirModal(medico)" alt="medico.nombre" class="medicoPicture w100 cursor">
+                              </td>
+                              <td>{{ medico.nombre }}</td>
 
                               <td class="text-nowrap">
-                                  <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                  <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="fa fa-close text-danger"></i> </a>
+                                  <a [routerLink] = "['/dashboard/medico', medico._id]" data-toggle="tooltip" data-original-title="Editar"> <i class="cursor fa fa-pencil text-inverse m-r-10"></i> </a>
+                                  <a (click)="eliminarMedico(medico)" data-toggle="tooltip" data-original-title="Borrar"> <i class="cursor fa fa-close text-danger"></i> </a>
                               </td>
                           </tr>
 
@@ -61,9 +74,9 @@
                   </table>
               </div>
 
-              <button class="btn btn-secondary">Anteriores</button>
+              <!-- <button class="btn btn-secondary">Anteriores</button>
               &nbsp;
-              <button class="btn btn-secondary">Siguientes</button>
+              <button class="btn btn-secondary">Siguientes</button> -->
 
           </div>
       </div>
